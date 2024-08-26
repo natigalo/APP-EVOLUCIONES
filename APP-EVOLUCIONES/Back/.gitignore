@@ -1,0 +1,18 @@
+# Ignorar dependencias y archivos de compilación
+node_modules/
+build/
+dist/
+
+# Ignorar archivos de configuración y otros archivos temporales
+.env
+*.log
+*.tgz
+*.pid
+*.seed
+*.pid.lock
+
+# Ignorar cachés de herramientas
+.nyc_output/
+.grunt/
+bower_components/
+*.tsbuildinfo

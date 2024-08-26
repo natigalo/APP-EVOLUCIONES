@@ -1,0 +1,35 @@
+# Ignorar la carpeta Back (backend)
+Back\node_modules\
+Back/build/
+Back/dist/
+Back/.env
+
+# Ignorar la carpeta frontend (si existe y tiene una estructura similar)
+# Cambia 'frontend' por el nombre correcto si la carpeta es diferente
+frontend/node_modules/
+frontend/build/
+frontend/dist/
+frontend/.env
+
+# Ignorar archivos de logs y salida de compilación comunes
+**/logs/
+**/*.log
+*.tgz
+
+# Archivos de configuración del editor
+**/.vscode/
+**/.idea/
+
+# Ignorar cachés y otros archivos temporales
+**/.cache/
+**/.parcel-cache/
+**/.rpt2_cache/
+**/.snowpack/
+**/.eslintcache
+**/.stylelintcache
+APP-EVOLUCIONES/Back/node_modules/.bin/mime
+APP-EVOLUCIONES/Back/node_modules/.bin/nodemon
+APP-EVOLUCIONES/Back/node_modules/.bin/nodetouch
+APP-EVOLUCIONES/Back/node_modules/.bin/semver
+APP-EVOLUCIONES/Back/node_modules/nodemon/README.md
+APP-EVOLUCIONES/Back/node_modules/.bin/mime
