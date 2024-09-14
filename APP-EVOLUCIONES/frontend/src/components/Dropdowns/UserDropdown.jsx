@@ -1,5 +1,6 @@
 import React from "react";
 import { createPopper } from "@popperjs/core";
+import imgLogo from '../../assets/img/EvolCliniclogo.png'
 
 const UserDropdown = () => {
   // dropdown props
@@ -31,7 +32,7 @@ const UserDropdown = () => {
             <img
               alt="..."
               className="w-full rounded-full align-middle border-none shadow-lg"
-              src={'CC'}
+              src={imgLogo}
             />
           </span>
         </div>
