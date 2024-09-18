@@ -33,3 +33,5 @@ APP-EVOLUCIONES/Back/node_modules/.bin/nodetouch
 APP-EVOLUCIONES/Back/node_modules/.bin/semver
 APP-EVOLUCIONES/Back/node_modules/nodemon/README.md
 APP-EVOLUCIONES/Back/node_modules/.bin/mime
+.DS_Store
+APP-EVOLUCIONES/.DS_Store
