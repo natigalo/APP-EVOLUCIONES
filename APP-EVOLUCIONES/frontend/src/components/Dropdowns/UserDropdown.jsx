@@ -19,7 +19,7 @@ const UserDropdown = () => {
   return (
     <>
       <a
-        className="text-blueGray-500 block"
+        className="text-blueGray-200 block"
         href="#Dashboard"
         ref={btnDropdownRef}
         onClick={(e) => {
@@ -28,7 +28,7 @@ const UserDropdown = () => {
         }}
       >
         <div className="items-center flex">
-          <span className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
+          <span className="text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full" style={{width: '120px'}}>
             <img
               alt="..."
               className="w-full rounded-full align-middle border-none shadow-lg"

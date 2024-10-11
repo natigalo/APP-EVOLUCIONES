@@ -3,3 +3,8 @@
 @tailwind components;
 
 @tailwind utilities;
+
+
+.evolutions {
+    margin-top: 6rem;
+}
