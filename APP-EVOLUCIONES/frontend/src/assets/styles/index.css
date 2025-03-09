@@ -8,3 +8,16 @@
 .evolutions {
     margin-top: 6rem;
 }
+
+
+@media (max-width: 1024px) {
+  .evolutions .relative {
+    display: block;
+  }
+  .evolutions .text-center p {
+    margin-top: 1rem;
+    color: #333;
+  }
+}
+
+  

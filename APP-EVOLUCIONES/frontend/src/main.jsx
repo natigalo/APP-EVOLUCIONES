@@ -15,7 +15,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
         <Switch>
           {/* add routes with layouts */}
-          <Route path="/admin" component={App} />
+          <Route path="/" component={App} />
           {/* <Route path="/auth" component={Auth} /> */}
           {/* add routes without layouts */}
           {/* <Route path="/landing" exact component={Landing} />

@@ -1,66 +1,70 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import { Switch, Route, Redirect } from "react-router-dom";
+import axios from 'axios';
 
 // views
-
 import Dashboard from "./views/admin/Dashboard.jsx";
+import Login from "./views/auth/Login.jsx";
+import Evoluciones from './views/pages/Evolutions.jsx'
 
 // components
-
 import AdminNavbar from "./components/Navbars/AdminNavbar.jsx";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import HeaderStats from "./components/Headers/HeaderStats.jsx";
-// import FooterAdmin from "components/Footers/FooterAdmin.js";
-import Evoluciones from '../src/views/pages/Evolutions.jsx'
+
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Cambia a false para probar el login
+
+  const token = localStorage.getItem('token'); // Asegúrate de que 'token' es el nombre correcto
+
+  const api = axios.create({
+    baseURL: 'http://localhost:3000', // Cambia la URL base según sea necesario
+    headers: {
+        Authorization: `${token}`, // Agregar el token al header de autorización
+    },
+});
+
+
+useEffect(() => {
+  api.get('/consultabd')
+      .then((response) => {
+          console.log(response.data);
+          setIsAuthenticated(true)
+      })
+      .catch((error) => console.error('Error fetching API:', error));
+  }, []);
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
   return (
     <>
-      <Sidebar />
-      <div className="relative md:ml-64 bg-blueGray-100">
-        <AdminNavbar />
-        {/* Header */}
-        <HeaderStats />
-        <div className="px-4 md:px-10 mx-auto w-full -m-24">
-          <Switch>
-            <Route path="/admin/dashboard" exact component={Dashboard} />
-            <Route path="/admin/Evoluciones" exact component={Evoluciones} />
-            {/* <Route path="/admin/settings" exact component={Settings} />
-            <Route path="/admin/tables" exact component={Tables} /> */}
-            <Redirect from="/admin" to="/admin/dashboard" />
-          </Switch>
-          {/* <FooterAdmin /> */}
-        </div>
-      </div>
+      <Switch>
+        {/* Rutas protegidas */}
+        {isAuthenticated ? (
+          <>
+            <Route path="/evoluciones" exact>
+              <Sidebar />
+              <div className="relative md:ml-64 bg-blueGray-100">
+                <AdminNavbar />
+                <HeaderStats />
+                <div className="px-2 md:px-8 mx-auto w-full -m-24">
+                  <Evoluciones />
+                </div>
+              </div>
+            </Route>
+            <Redirect from="/" to="/evoluciones" />
+          </>
+        ) : (
+          <Route path="/" exact>
+            <Login handleLogin={handleLogin} />
+          </Route>
+        )}
+        <Redirect from="*" to="/" /> {/* Redirige cualquier ruta desconocida al login */}
+      </Switch>
     </>
   );
 }
 
-export default App 
-/* 
-import React, { useState, useEffect } from 'react';
-import api from './api';
-
-const App = () => {
-  return (
-    <div className='bg-blue-400 w-full h-48 '>
-      <h1 >Actividades</h1>
-      <ul>
-        {actividades.map((act) => (
-          <li key={act.ID_ACT}>{act.NAME_ACT}</li>
-        ))}
-      </ul>
-      <div>
-        <h2>Agregar Habilidad</h2>
-        <input
-          type="text"
-          value={habilidad}
-          onChange={(e) => setHabilidad(e.target.value)}
-        />
-        <button onClick={handleAddHabilidad}>Agregar</button>
-      </div>
-    </>
-  );
-};
- 
-export default App; 
- */
+export default App;
