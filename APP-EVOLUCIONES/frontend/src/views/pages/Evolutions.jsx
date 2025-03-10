@@ -276,7 +276,7 @@ const Evolutions = () => {
               <div className="w-full lg:w-12/12 px-4">
                 <textarea
                   className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  value={`${textIntro} ${selectObj.name} involucrando ${selectHab.name} ${selectAct.name} ${additionalInfo}`}
+                  value={`${textIntro} ${selectObj.name} involucrando ${selectHab.name} mediante ${selectAct.name} ${additionalInfo}`}
                   rows="4"
                   // readOnly
                 ></textarea>
