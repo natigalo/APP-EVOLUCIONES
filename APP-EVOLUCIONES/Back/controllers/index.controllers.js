@@ -20,6 +20,9 @@ const login = async (req, res) => {
     const response = await pool.query('SELECT * FROM public."USUARIOS" WHERE "Correo" = $1', [correo]);
     const user = response.rows[0];
     console.log(user)
+    const constrase = "1234"
+    const contrasenat = await bcrypt.hash(constrase, 10); // 10 es el número de rondas de salting
+    console.log(contrasenat)
     if (!user) { 
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
@@ -34,8 +37,9 @@ const login = async (req, res) => {
     if (!validPassword) {
       return res.status(401).json({ message: 'Contraseña incorrecta' });
     }
+   
 
-    // Genera el token usando la función desde authMiddleware
+    // Genera el token usando la función desde authMiddleware  
     const token = generateToken.generateToken(user.Id_Usuario);
 
     res.json({ token });
@@ -57,6 +61,7 @@ const register = async (req, res) => {
 
     // Encriptar la contraseña antes de almacenarla
     const hashedPassword = await bcrypt.hash(contrasena, 10); // 10 es el número de rondas de salting
+   
 
     // Insertar el nuevo usuario en la base de datos
     const newUser = await pool.query(

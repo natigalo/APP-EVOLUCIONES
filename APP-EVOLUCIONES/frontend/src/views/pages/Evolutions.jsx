@@ -177,6 +177,44 @@ const Evolutions = () => {
       <div style={{ padding: '0px' }}>
         <div className="flex flex-col lg:flex-row lg:space-x-2 py-10">
           <form className="w-full lg:w-8/12">
+            
+
+            <div className="flex flex-wrap mb-4">
+              <div className="w-full lg:w-12/12 px-4">
+                {/* Select que muestra las opciones de la API */}
+                <select
+                  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 mb-2"
+                  value={selectedOption.IntroduccionText || ''} // Muestra el texto de la opción seleccionada
+                  onChange={(e) => {
+                    const obj = JSON.parse(e.target.value); // Deserializa el objeto seleccionado
+                    setSelectedOption(obj); // Actualiza el estado con el objeto seleccionado
+                    setTextIntro(obj.IntroduccionText); // Actualiza el input con el texto seleccionado
+                  }}
+                >
+                  <option value={JSON.stringify({ id: 0, IntroduccionText: '' })}>Seleccione una opción</option>
+                  {options.map((option) => (
+                    <option key={option.id} value={JSON.stringify({ id: option.id, IntroduccionText: option.IntroduccionText })}>
+                      {option.IntroduccionText}
+                    </option>
+                  ))}
+                </select>
+
+                {/* Input de texto para escribir */}
+                <input
+                  type="text"
+                  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  placeholder="Escribe o selecciona una opción"
+                  value={textIntro}
+                  onChange={(e) => setTextIntro(e.target.value)} // Actualiza el estado cuando se escribe
+                />
+
+                {/* Botón de guardado */}
+                <button onClick={handleSave} className="save-button mt-2">
+                  <i className="fas fa-save" style={{ color: 'blue' }}></i>
+                </button>
+              </div>
+            </div>
+
             <div className="flex flex-wrap mb-4">
               <div className="w-full lg:w-4/12 px-4">
                 <select
@@ -233,44 +271,6 @@ const Evolutions = () => {
                 </select>
               </div>
             </div>
-
-            <div className="flex flex-wrap mb-4">
-              <div className="w-full lg:w-12/12 px-4">
-                {/* Select que muestra las opciones de la API */}
-                <select
-                  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 mb-2"
-                  value={selectedOption.IntroduccionText || ''} // Muestra el texto de la opción seleccionada
-                  onChange={(e) => {
-                    const obj = JSON.parse(e.target.value); // Deserializa el objeto seleccionado
-                    setSelectedOption(obj); // Actualiza el estado con el objeto seleccionado
-                    setTextIntro(obj.IntroduccionText); // Actualiza el input con el texto seleccionado
-                  }}
-                >
-                  <option value={JSON.stringify({ id: 0, IntroduccionText: '' })}>Seleccione una opción</option>
-                  {options.map((option) => (
-                    <option key={option.id} value={JSON.stringify({ id: option.id, IntroduccionText: option.IntroduccionText })}>
-                      {option.IntroduccionText}
-                    </option>
-                  ))}
-                </select>
-
-                {/* Input de texto para escribir */}
-                <input
-                  type="text"
-                  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  placeholder="Escribe o selecciona una opción"
-                  value={textIntro}
-                  onChange={(e) => setTextIntro(e.target.value)} // Actualiza el estado cuando se escribe
-                />
-
-                {/* Botón de guardado */}
-                <button onClick={handleSave} className="save-button mt-2">
-                  <i className="fas fa-save" style={{ color: 'blue' }}></i>
-                </button>
-              </div>
-            </div>
-
-
 
             <div className="flex flex-wrap mb-4">
               <div className="w-full lg:w-12/12 px-4">
