@@ -303,7 +303,21 @@ const createIntroduccion = async (req, res) => {
   }
 };
 
+const createFinish = async (req, res) => {
+  console.log(req.body);
+  const { FinishText, IdUsuario } = req.body; // Obtener los datos del cuerpo de la solicitud
 
+  try {
+    const response = await pool.query(
+      'INSERT INTO public."FINISHTEXT"("FinishText", "IdUsuario") VALUES ($1, $2) RETURNING *',
+      [FinishText, IdUsuario] // Los valores deben ir en un solo array
+    );
+    res.status(201).send(response.rows[0]); // Enviar la fila insertada como respuesta
+  } catch (error) {
+    console.error('Error al insertar en la base de datos:', error);
+    res.status(500).send({ message: 'Error al insertar en la base de datos', error });
+  }
+};
 const getIntrByUser = async (req, res) => {
   const { id } = req.params; // Obtener idUsuario de los parámetros de la solicitud
   console.log(id)
@@ -324,7 +338,25 @@ const getIntrByUser = async (req, res) => {
   }
 };
 
+const getfinishByUser = async (req, res) => {
+  const { id } = req.params; // Obtener idUsuario de los parámetros de la solicitud
+  console.log(id)
+  try {
+    const response = await pool.query(
+      'SELECT * FROM public."FINISHTEXT" WHERE "IdUsuario" = $1',
+      [id] // Pasar idUsuario como parámetro
+    );
 
+    if (response.rows.length === 0) {
+      return res.status(404).send({ message: 'No se encontraron registros para el usuario especificado' });
+    }console.log(response)
+
+    res.status(200).send(response.rows); // Enviar los registros obtenidos como respuesta
+  } catch (error) {
+    console.error('Error al obtener datos de la base de datos:', error);
+    res.status(500).send({ message: 'Error al obtener datos de la base de datos', error });
+  }
+};
 
 // Funciones para editar
 const updateObjetivo = async (req, res) => {
@@ -493,5 +525,7 @@ module.exports = {
   deleteHabilidad,
   deleteActividad,
   deleteObjetivoHabilidad,
-  deleteHabilidadActividad  
+  deleteHabilidadActividad,
+  getfinishByUser,
+  createFinish
 };

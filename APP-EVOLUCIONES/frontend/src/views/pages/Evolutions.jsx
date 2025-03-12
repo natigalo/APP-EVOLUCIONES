@@ -10,6 +10,9 @@ const Evolutions = () => {
     const [textIntro, setTextIntro] = useState('');
     const [options, setOptions] = useState([]); // Almacenará las opciones del select
     const [selectedOption, setSelectedOption] = useState({ Id: 0, IntroduccionText: '' }); // Guarda el objeto seleccionado (con ID y nombre)
+    const [FinishText, setTextFinish] = useState('');
+    const [optionsFinish, setOptionsFinish] = useState([]); // Almacenará las opciones del select
+    const [selectedOptionFinish, setSelectedOptionFinish] = useState({ Id: 0, FinishText: '' }); // Guarda el objeto seleccionado (con ID y nombre)
     const [additionalInfo, setAdditionalInfo] = useState('');
     const [apiData, setApiData] = useState([]);
     const [apiHabilidad, setApiHabilidad] = useState([]);
@@ -25,7 +28,7 @@ const Evolutions = () => {
 
     // Manejador de copiar al portapapeles
     const handleCopy = () => {
-      const copyText = `${textIntro} ${selectObj.name} ${selectHab.name} ${selectAct.name} ${additionalInfo}`;
+      const copyText = `${textIntro} ${selectObj.name} involucrando ${selectHab.name} mediante ${selectAct.name} ${additionalInfo}`;
       navigator.clipboard.writeText(copyText).then(() => {
           alert('Copied to clipboard!');
       });
@@ -74,6 +77,12 @@ const Evolutions = () => {
             .then((response) => {
                 console.log('Datos:', response.data);
                 setOptions(response.data);
+            })
+            .catch((error) => console.error('Error data:', error));
+        api.get(`/getFinishByUser/${IdUsuario}`)
+            .then((response) => {
+                console.log('Datos:', response.data);
+                setOptionsFinish(response.data);
             })
             .catch((error) => console.error('Error data:', error));
 
@@ -147,7 +156,7 @@ const Evolutions = () => {
         }
     }, [selectAct]);
 
-        // Método para guardar en la base de datos
+        // Método para guardar en la base de datos intro
         const handleSave = (e) => {
           e.preventDefault(); // Evita el comportamiento predeterminado del formulario
 
@@ -167,7 +176,26 @@ const Evolutions = () => {
               alert('Error al guardar los datos');
             });
         };
+// Método para guardar en la base de datos finish
+const handleSaveFinish = (e) => {
+  e.preventDefault(); // Evita el comportamiento predeterminado del formulario
 
+  const dataToSave = {
+    FinishText: FinishText, // Cambié 'textIntro' a 'IntroduccionText' para coincidir con el backend
+    IdUsuario
+  };
+
+  // Asegúrate de que la URL sea la correcta
+  api.post('/saveFinish', dataToSave)  // 
+    .then((response) => {
+      alert('Datos guardados con éxito');
+      console.log('Guardado exitoso:', response.data);
+    })
+    .catch((error) => {
+      console.error('Error al guardar los datos:', error);
+      alert('Error al guardar los datos');
+    });
+};
 
     const [textareaContent, setTextareaContent] = useState("This is a non-editable text area.");
 
@@ -181,7 +209,7 @@ const Evolutions = () => {
 
             <div className="flex flex-wrap mb-4">
               <div className="w-full lg:w-12/12 px-4">
-                {/* Select que muestra las opciones de la API */}
+                {/* Select que muestra las opciones de la API INTRODUCCION */}
                 <select
                   className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 mb-2"
                   value={selectedOption.IntroduccionText || ''} // Muestra el texto de la opción seleccionada
@@ -294,6 +322,43 @@ const Evolutions = () => {
                 />
               </div>
             </div>
+            <div className="flex flex-wrap mb-4">
+              <div className="w-full lg:w-12/12 px-4">
+                {/* Select que muestra las opciones de la API CIERRE*/}
+                <select
+                  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 mb-2"
+                  value={selectedOptionFinish.FinishText || ''} // Muestra el texto de la opción seleccionada
+                  onChange={(e) => {
+                    const obj = JSON.parse(e.target.value); // Deserializa el objeto seleccionado
+                    console.log(obj)
+                    setSelectedOptionFinish(obj); // Actualiza el estado con el objeto seleccionado
+                    setTextFinish(obj.FinishText); // Actualiza el input con el texto seleccionado
+                  }}
+                >
+                  <option value={JSON.stringify({ id: 0, FinishText: '' })}>Seleccione una opción</option>
+                  {optionsFinish.map((option) => (
+                    <option key={option.id} value={JSON.stringify({ id: option.id, FinishText: option.FinishText })}>
+                      {option.FinishText}
+                    </option>
+                  ))} 
+                  {console.log(optionsFinish)}
+                </select>
+
+                {/* Input de texto para escribir */}
+                <input
+                  type="text"
+                  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  placeholder="Escribe o selecciona una opción"
+                  value={FinishText}
+                  onChange={(e) => setTextFinish(e.target.value)} // Actualiza el estado cuando se escribe
+                />
+
+                {/* Botón de guardado */}
+                <button onClick={handleSaveFinish} className="save-button mt-2">
+                  <i className="fas fa-save" style={{ color: 'blue' }}></i>
+                </button>
+              </div>
+            </div>
           </form>
 
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full lg:w-4/12 lg:mt-0 mb-6 shadow-xl rounded-lg p-4">
@@ -304,7 +369,7 @@ const Evolutions = () => {
             </div>
             <div className="px-6 py-4 text-center">
               <p className="text-gray-700 text-base">
-                {`${textIntro} ${selectObj.name} ${selectHab.name} ${selectAct.name} ${additionalInfo}`}
+                {`${textIntro} ${selectObj.name} involucrando ${selectHab.name} mediante ${selectAct.name} ${additionalInfo} ${FinishText} `}
               </p>
             </div>
           </div>

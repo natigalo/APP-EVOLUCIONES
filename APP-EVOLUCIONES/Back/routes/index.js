@@ -31,7 +31,9 @@ const {
   deleteHabilidad, 
   deleteActividad, 
   deleteObjetivoHabilidad, 
-  deleteHabilidadActividad
+  deleteHabilidadActividad,
+  getfinishByUser,
+  createFinish
 } = require('../controllers/index.controllers.js');
 
 // Rutas públicas
@@ -50,6 +52,7 @@ router.get('/Idact_hab/:id', verifyToken.verifyToken, getIdActividadHabilidad);
 router.get('/Idhab_obj/:id', verifyToken.verifyToken, getIdHabilidadObjetivo);
 router.get('/consultabd', verifyToken.verifyToken, consultaBd);
 router.get('/getIntroByIdUser/:id', verifyToken.verifyToken, getIntrByUser);
+router.get('/getFinishByUser/:id', verifyToken.verifyToken, getfinishByUser);
 
 
 // Rutas para crear datos (también protegidas)
@@ -59,6 +62,7 @@ router.post('/actividad', verifyToken.verifyToken, createActividad);
 router.post('/obj_habi', verifyToken.verifyToken, createObjetivoHabilidad);
 router.post('/hab_act', verifyToken.verifyToken, createHabilidadActividad);
 router.post('/saveIntro', verifyToken.verifyToken, createIntroduccion);
+router.post('/saveFinish', verifyToken.verifyToken, createFinish);
 
 
 // Rutas para editar datos (también protegidas)
